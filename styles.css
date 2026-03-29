@@ -1701,9 +1701,14 @@ textarea.invalid {
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: 0.04em;
-  transition: background var(--ease);
+  /* Instant tap — no 300ms delay, no double-tap-to-zoom intercept */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
-.mobile-call-link:hover { background: rgba(239,156,56,0.15); }
+
+@media (hover: hover) {
+  .mobile-call-link:hover { background: rgba(239,156,56,0.15); }
+}
 
 .mobile-call-link svg {
   width: 20px;
