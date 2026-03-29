@@ -53,6 +53,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  /* Match bottom bg to call bar so iOS rubber-band overscroll shows no gap */
+  background-color: var(--brown);
 }
 
 body {
@@ -1680,9 +1682,13 @@ textarea.invalid {
   left: 0;
   right: 0;
   z-index: var(--z-call-bar);
-  height: 56px;
   background: var(--brown);
   border-top: 2px solid var(--amber);
+  /* Push content above iOS home indicator pill */
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  /* Hardware acceleration prevents jitter during scroll */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .mobile-call-link {
@@ -1690,7 +1696,7 @@ textarea.invalid {
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
-  height: 100%;
+  height: 56px;
   color: #fff;
   font-weight: 700;
   font-size: 1rem;
