@@ -338,16 +338,49 @@ section {
   outline-offset: 2px;
 }
 
-.hamburger .icon-menu,
-.hamburger .icon-close {
-  position: absolute;
-  transition: opacity 200ms ease;
-  color: var(--brown);
+/* Single element, three bars via ::before, self, ::after */
+.hamburger-box {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--brown);
+  border-radius: 0;
+  /* Pre-promote to GPU layer — eliminates subpixel dot artifact on WebKit */
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  transition: background 300ms ease;
 }
 
-.hamburger .icon-close { opacity: 0; }
-.hamburger.active .icon-menu  { opacity: 0; }
-.hamburger.active .icon-close { opacity: 1; }
+.hamburger-box::before,
+.hamburger-box::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--brown);
+  border-radius: 0;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  transition: transform 300ms ease, opacity 300ms ease, top 300ms ease;
+}
+
+.hamburger-box::before { top: -7px; }
+.hamburger-box::after  { top:  7px; }
+
+/* Active state — X */
+.hamburger.active .hamburger-box {
+  background: transparent; /* hide middle bar */
+}
+.hamburger.active .hamburger-box::before {
+  top: 0;
+  transform: translateZ(0) rotate(45deg);
+}
+.hamburger.active .hamburger-box::after {
+  top: 0;
+  transform: translateZ(0) rotate(-45deg);
+}
 
 /* ============================================================
    MOBILE MENU OVERLAY
