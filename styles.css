@@ -1684,11 +1684,22 @@ textarea.invalid {
   z-index: var(--z-call-bar);
   background: var(--brown);
   border-top: 2px solid var(--amber);
-  /* Push content above iOS home indicator pill */
+  overflow: visible;
   padding-bottom: env(safe-area-inset-bottom, 0);
-  /* Hardware acceleration prevents jitter during scroll */
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
+}
+
+/* Color-bleed trick — fills any Chrome address-bar animation gap */
+#mobile-call-bar::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background-color: inherit;
+  pointer-events: none;
 }
 
 .mobile-call-link {
